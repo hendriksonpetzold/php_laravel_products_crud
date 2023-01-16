@@ -20,3 +20,4 @@ Route::get('/', [HomeController::class, 'index']);
 Route::get('/product', [ProductController::class, 'show']);
 
 Route::get('/admin/products', [AdminProductController::class, 'index']);
+Route::get('/admin/products/edit', [AdminProductController::class, 'edit']);
