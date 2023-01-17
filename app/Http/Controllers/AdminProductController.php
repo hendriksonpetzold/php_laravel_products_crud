@@ -18,4 +18,16 @@ class AdminProductController extends Controller
     {
         return view('admin.products_edit');
     }
+
+    public function update()
+    {
+    }
+
+    public function create()
+    {
+        return view('admin.products_create');
+    }
+    public function store()
+    {
+    }
 }
