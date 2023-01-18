@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ProductStoreRequest;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class AdminProductController extends Controller
@@ -23,15 +25,9 @@ class AdminProductController extends Controller
         ]);
     }
 
-    public function update(Request $request, Product $product)
+    public function update(ProductStoreRequest $request, Product $product)
     {
-        $input = $request->validate([
-            'name' => 'string|required',
-            'price' => 'string|required',
-            'stock' => 'integer|nullable',
-            'cover' => 'file|nullable',
-            'description' => 'string',
-        ]);
+        $input = $request->validated();
         if (!empty($input['cover']) && $input['cover']->isValid()) {
             $file = $input['cover'];
             $path = $file->store('public/products');
@@ -47,15 +43,9 @@ class AdminProductController extends Controller
     {
         return view('admin.products_create');
     }
-    public function store(Request $request)
+    public function store(ProductStoreRequest $request)
     {
-        $input = $request->validate([
-            'name' => 'string|required',
-            'price' => 'string|required',
-            'stock' => 'integer|nullable',
-            'cover' => 'file|nullable',
-            'description' => 'string',
-        ]);
+        $input = $request->validated();
 
         $input['slug'] = Str::slug($input['name']);
         if (!empty($input['cover']) && $input['cover']->isValid()) {
@@ -71,6 +61,7 @@ class AdminProductController extends Controller
     public function destroy(Product $product)
     {
         $product->delete();
+        Storage::delete($product->cover ?? '');
         return Redirect::route('admin.product');
     }
 }
