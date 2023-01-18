@@ -24,3 +24,4 @@ Route::get('/admin/products/create', [AdminProductController::class, 'create'])-
 Route::get('/admin/products/{product}/edit', [AdminProductController::class, 'edit'])->name('admin.product.edit');
 Route::post('/admin/products', [AdminProductController::class, 'store'])->name('admin.product.store');
 Route::put('/admin/products/{product}', [AdminProductController::class, 'update'])->name('admin.product.update');
+Route::get('/admin/products/{product}/delete', [AdminProductController::class, 'destroy'])->name('admin.product.destroy');
